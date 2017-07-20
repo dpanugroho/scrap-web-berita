@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup 
 import pandas as pd
 
-
+import news_utils
 from datetime import timedelta, date
 
 def daterange(start_date, end_date):
@@ -18,10 +18,8 @@ def daterange(start_date, end_date):
 def generate_datetime(start_month, end_month, year, news_site_name):
     date_all = []
     
-    if news_site_name=="kompas":
-      sep = '-'
-    elif news_site_name=="tempo":
-      sep="/"
+    sep = news_utils.date_separator[news_site_name]
+
     
     start_date = date(year, start_month, 1)
     end_date = date(year, (end_month+1), 1)
@@ -91,5 +89,5 @@ def get_news_link(start_month, end_month, year, news_site_name):
 
 #%%  
 #kompas_link = get_link_kompas(generate_datetime(1,1,2017,'kompas'))
-kompas_link = get_news_link(1, 2, 2017, 'kompas')
+kompas_link = get_news_link(1, 3, 2017, 'kompas')
 #kompas_link = pd.read_csv('data/input/'+'kompas'+'.csv')

@@ -7,7 +7,7 @@ Created on Sat Jul 15 18:50:51 2017
 
 import pandas as pd
 import ast
-
+import news_utils
 #%%
 
 def prepare(news_site_name):
@@ -22,12 +22,15 @@ def prepare(news_site_name):
     url_group=item['links']
     current_url_group = ast.literal_eval(url_group)
     
-    current_datetime = item['date']
+    current_datetime = item['dates']
+
+    
+    sep = news_utils.date_separator[news_site_name]
     for url_news in current_url_group:
       news_link_flat_url.append(url_news)
-      news_link_flat_year.append(current_datetime.split('/')[0])
-      news_link_flat_month.append(current_datetime.split('/')[1].replace("0"," "))
-      news_link_flat_date.append(current_datetime.split('/')[2].replace("0"," "))
+      news_link_flat_year.append(current_datetime.split(sep)[0])
+      news_link_flat_month.append(current_datetime.split(sep)[1].replace("0"," "))
+      news_link_flat_date.append(current_datetime.split(sep)[2].replace("0"," "))
       
   
   tempo_raw_news_text = []
