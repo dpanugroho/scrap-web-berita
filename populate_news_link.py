@@ -34,7 +34,7 @@ def generate_datetime(start_month, end_month, year, news_site_name):
 
 def get_link_kompas(datetime):
     news_urls = []
-    
+    dates = []
     for i in range(len(datetime)):
         response = requests.get('http://indeks.kompas.com/news/'+datetime[i])
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -50,8 +50,9 @@ def get_link_kompas(datetime):
                         for a_ in div.findAll('a', {'class': 'article__link'}):
                             temp.append(a_['href'])
                 news_urls.append(temp)
+                dates.append(datetime[i])
         print(datetime[i])
-    return news_urls
+    return dates, news_urls
 
 def get_link_tempo(datetime):
   news_urls=[]
@@ -78,12 +79,17 @@ def get_news_link(start_month, end_month, year, news_site_name):
   datetime= generate_datetime(start_month, end_month, year, news_site_name)
   
   if news_site_name =='kompas':
-    news_urls = get_link_kompas(datetime)
+    dates, news_urls = get_link_kompas(datetime)
   elif news_site_name == 'tempo':
     news_urls = get_link_tempo(datetime)
+  df = {'dates': dates, 'links': news_urls}  
+  news_link_df = pd.DataFrame(data= df, columns=['dates','links'])
   
-  pd.DataFrame(news_urls).to_csv('data/input/'+news_site_name+'.csv')
+  news_link_df.to_csv('data/input/'+news_site_name+'.csv')
   print(news_site_name+'news url saved in /data/input')
-#%%  
+  return news_link_df
 
-get_news_link(1, 2, 2017, 'kompas')
+#%%  
+#kompas_link = get_link_kompas(generate_datetime(1,1,2017,'kompas'))
+kompas_link = get_news_link(1, 2, 2017, 'kompas')
+#kompas_link = pd.read_csv('data/input/'+'kompas'+'.csv')
