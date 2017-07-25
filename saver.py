@@ -39,11 +39,11 @@ def start_scrap(news_site_name, start, end):
   
   for i in range(start,end):
     news_item = news_data.ix[i]
-    if news_item['article'] == "WAITING":
+    if news_item['article'] == "EMPTY":
       # Add random sleep time at maximum 3 seconds to prevent suspicious action
       time.sleep(np.random.randint(1,3)) 
       
-      # Some site specific workaround
+      # Some site specific worpkaround
       # TODO : Very bad workaround, try something else please
       if news_site_name=='tempo':
         if(news_item['url'][:5] == '/read'):
@@ -64,5 +64,6 @@ def start_scrap(news_site_name, start, end):
       news_data.to_csv('data/intermediete/'+news_site_name+'_news_data.csv', index=False)
       print(str(news_item['date'])+'/'+str(news_item['month'])+'/'+str(news_item['year'])+ ' data '+ str(i)+ ' saved!')
         
-if __name__ == "__main__":      
-  start_scrap('tempo',0,10000)
+if __name__ == "__main__":   
+  site='tempo'
+  start_scrap(site,28000,'max')

@@ -19,5 +19,7 @@ def get_news_kompas(url, headers):
         for p in div.findAll('p'):
             temp.append(p.text)
         artikel.append(temp)
-    return "".join(artikel[0])
+        if len(artikel)>0:
+            artikel=artikel[0]
+    return "".join(artikel)
 
