@@ -59,7 +59,7 @@ def get_link_kompas(datetime):
 def get_link_tempo(datetime):
     news_urls=[]
     dates = []
-    for i in range(60):
+    for i in range(len(datetime)):
         # add ramdom sleep
         time.sleep(np.random.randint(1,3)) 
         response = requests.get('http://www.tempo.co/indeks/'+datetime[i])
@@ -95,5 +95,5 @@ def get_news_link(start_month, end_month, year, news_site_name):
 
 #%%  
 #kompas_link = get_link_kompas(generate_datetime(1,1,2017,'kompas'))
-tempo_link = get_news_link(1, 2, 2016, 'tempo')
+tempo_link = get_news_link(1, 12, 2016, 'tempo')
 #kompas_link = pd.read_csv('data/input/'+'kompas'+'.csv')
