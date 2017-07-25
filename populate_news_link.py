@@ -7,7 +7,8 @@ Created on Thu Jul 20 06:30:54 2017
 import requests
 from bs4 import BeautifulSoup 
 import pandas as pd
-
+import time
+import numpy as np
 import news_utils
 from datetime import timedelta, date
 
@@ -59,6 +60,8 @@ def get_link_tempo(datetime):
     news_urls=[]
     dates = []
     for i in range(60):
+        # add ramdom sleep
+        time.sleep(np.random.randint(1,3)) 
         response = requests.get('http://www.tempo.co/indeks/'+datetime[i])
         soup = BeautifulSoup(response.text, 'html.parser')
         temp = []

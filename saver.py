@@ -4,8 +4,7 @@ Created on Sat Jul 15 23:43:58 2017
 
 @author: dwipr
 """
-from bs4 import BeautifulSoup
-import requests
+
 import time
 import pandas as pd
 import numpy as np
