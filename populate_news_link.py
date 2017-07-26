@@ -95,5 +95,5 @@ def get_news_link(start_month, end_month, year, news_site_name):
 
 #%%  
 #kompas_link = get_link_kompas(generate_datetime(1,1,2017,'kompas'))
-tempo_link = get_news_link(1, 12, 2016, 'tempo')
+tempo_link = get_news_link(1, 12, 2016, 'kompas')
 #kompas_link = pd.read_csv('data/input/'+'kompas'+'.csv')

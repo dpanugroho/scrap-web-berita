@@ -7,6 +7,7 @@ Created on Sat Jul 15 18:50:51 2017
 
 import pandas as pd
 import ast
+import re
 import news_utils
 #%%
 

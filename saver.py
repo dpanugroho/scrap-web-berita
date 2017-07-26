@@ -29,8 +29,9 @@ def get_article(news_site_name, url, headers):
 def start_scrap(news_site_name, start, end):
   try:
     news_data = pd.read_csv('data/intermediete/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
-  except OSError:
+  except IOError:
     prepare(news_site_name)
+    print("file not found, preparing new file..")
     news_data = pd.read_csv('data/intermediete/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
   
   if end == 'max':
@@ -38,7 +39,7 @@ def start_scrap(news_site_name, start, end):
   
   for i in range(start,end):
     news_item = news_data.ix[i]
-    if news_item['article'] == "EMPTY":
+    if news_item['article'] == "WAITING":
       # Add random sleep time at maximum 3 seconds to prevent suspicious action
       time.sleep(np.random.randint(1,3)) 
       
@@ -59,10 +60,10 @@ def start_scrap(news_site_name, start, end):
       # Call get_article_function, save to downloaded_article
       downloaded_article = get_article(news_site_name, url, headers)
 
-      news_data.set_value(i, 'article', downloaded_article)
+      news_data.set_value(i, 'article', re.sub(r'[^\x00-\x7F]+',' ', downloaded_article))
       news_data.to_csv('data/intermediete/'+news_site_name+'_news_data.csv', index=False)
       print(str(news_item['date'])+'/'+str(news_item['month'])+'/'+str(news_item['year'])+ ' data '+ str(i)+ ' saved!')
         
 if __name__ == "__main__":   
-  site='tempo'
-  start_scrap(site,28000,'max')
+  site='kompas'
+  start_scrap(site,8,'max')
