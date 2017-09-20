@@ -4,7 +4,7 @@ Created on Sat Jul 15 23:43:58 2017
 
 @author: dwipr
 """
-
+import re
 import time
 import pandas as pd
 import numpy as np
@@ -25,14 +25,18 @@ def get_article(news_site_name, url, headers):
         return scraper.get_news_kompas(url, headers)
     elif news_site_name == 'tempo':
         return scraper.get_news_tempo(url, headers)
+    elif news_site_name == 'detik':
+        return scraper.get_news_detik(url, headers)
+    elif news_site_name == 'metrotvnews':
+        return scraper.get_news_metrotvnews(url, headers)
     
 def start_scrap(news_site_name, start, end):
   try:
-    news_data = pd.read_csv('data/intermediete/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
+    news_data = pd.read_csv('data/intermediate/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
   except IOError:
     prepare(news_site_name)
     print("file not found, preparing new file..")
-    news_data = pd.read_csv('data/intermediete/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
+    news_data = pd.read_csv('data/intermediate/'+news_site_name+'_news_data.csv', encoding='ISO-8859-1')
   
   if end == 'max':
     end = len(news_data)
@@ -59,11 +63,14 @@ def start_scrap(news_site_name, start, end):
       
       # Call get_article_function, save to downloaded_article
       downloaded_article = get_article(news_site_name, url, headers)
-
-      news_data.set_value(i, 'article', re.sub(r'[^\x00-\x7F]+',' ', downloaded_article))
-      news_data.to_csv('data/intermediete/'+news_site_name+'_news_data.csv', index=False)
+      if news_site_name=='detik':
+        news_data.set_value(i, 'article', downloaded_article)
+        print(downloaded_article)
+      else:
+        news_data.set_value(i, 'article', re.sub(r'[^\x00-\x7F]+',' ', downloaded_article))
+      news_data.to_csv('data/intermediate/'+news_site_name+'_news_data.csv', index=False)
       print(str(news_item['date'])+'/'+str(news_item['month'])+'/'+str(news_item['year'])+ ' data '+ str(i)+ ' saved!')
         
 if __name__ == "__main__":   
-  site='kompas'
-  start_scrap(site,8,'max')
+  site='detik'
+  start_scrap(site,0,2)

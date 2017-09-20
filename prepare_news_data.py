@@ -11,8 +11,8 @@ import re
 import news_utils
 #%%
 
-def prepare(news_site_name):
-  news_link = pd.read_csv('data/input/'+news_site_name+'.csv')
+def prepare(news_site_name, year):
+  news_link = pd.read_csv('data/input/'+news_site_name+'_'+str(year)+'.csv')
   news_link_flat_url = []
   
   news_link_flat_date = []
@@ -34,11 +34,11 @@ def prepare(news_site_name):
       news_link_flat_date.append(current_datetime.split(sep)[2].replace("0"," "))
       
   
-  tempo_raw_news_text = []
+  raw_news_text = []
   for i in range(len(news_link_flat_url)):
-    content =  "WAITING"
+    content =  "UNSET"
 
-    tempo_raw_news_text.append(content)
+    raw_news_text.append(content)
               
               
   final_dataset = pd.DataFrame()
@@ -46,8 +46,8 @@ def prepare(news_site_name):
   final_dataset['month'] = news_link_flat_month
   final_dataset['date'] = news_link_flat_date
   final_dataset['url'] = news_link_flat_url
-  final_dataset['article'] = tempo_raw_news_text
+  final_dataset['article'] = raw_news_text
   
-  final_dataset.to_csv('data/intermediete/'+news_site_name+'_news_data.csv', index=False)
+  final_dataset.to_csv('data/intermediate/'+news_site_name+'_'+str(year)+'_news_data.csv', index=False)
   
 
